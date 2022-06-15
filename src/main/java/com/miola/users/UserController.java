@@ -1,18 +1,13 @@
 package com.miola.users;
 
-import com.miola.dto.ResponseWithToken;
+import com.miola.dto.*;
 import com.miola.messages.ControllerMessages;
-import com.miola.dto.BasicResponse;
-import com.miola.dto.LoginRequest;
-import com.miola.dto.SignUpRequest;
+import com.miola.messages.UtilMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -34,6 +29,14 @@ public class UserController {
         String token = userService.login(loginRequest);
         ResponseWithToken response = new ResponseWithToken(HttpStatus.OK, ControllerMessages.LOG_IN_SUCCESS_MESSAGE, token);
         return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ResponseWithOneObject> me(@RequestHeader(value = UtilMessages.AUTHORIZATION) String token) {
+        UserDetailsWithoutPwd user = userService.me(token);
+        ResponseWithOneObject response = new ResponseWithOneObject(HttpStatus.OK, ControllerMessages.SUCCESS, user);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

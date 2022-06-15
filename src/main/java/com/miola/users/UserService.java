@@ -2,14 +2,14 @@ package com.miola.users;
 
 import com.miola.dto.LoginRequest;
 import com.miola.dto.SignUpRequest;
-import com.miola.exceptions.LoginFailException;
-import com.miola.exceptions.PasswordsNotMatchingException;
-import com.miola.exceptions.UserAlreadyExistsException;
-import com.miola.exceptions.UserDoesntExistException;
+import com.miola.dto.UserDetailsWithoutPwd;
+import com.miola.exceptions.*;
 import com.miola.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -84,6 +84,38 @@ public class UserService {
         CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
 
         return jwtUtil.generateToken(userDetails);
+    }
+
+    public UserDetailsWithoutPwd me(String token) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        String email = userDetails.getEmail();
+        String parsedToken = token.substring(7);
+
+        boolean isValidateToken = jwtUtil.validateToken(parsedToken, userDetails);
+
+        if (!isValidateToken) {
+            throw new InvalidTokenException();
+        }
+
+        Optional<UserModel> userOp = userRepository.findByEmail(email);
+
+        if (userOp.isEmpty()){
+            throw new UserDoesntExistException();
+        }
+
+        UserModel user = userOp.get();
+
+        UserDetailsWithoutPwd userDetailsWithoutPwd = new UserDetailsWithoutPwd(
+            user.getId(),
+            user.getEmail(),
+            user.getFirstName(),
+            user.getLastName(),
+            user.getAddress()
+        );
+
+        return userDetailsWithoutPwd;
     }
 
     public List<UserModel> getAll() {
