@@ -1,7 +1,7 @@
 package com.miola.exceptions;
 
 import com.miola.dto.BasicResponse;
-import com.miola.messages.ExceptionMessages;
+import com.miola.responseMessages.ExceptionMessages;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

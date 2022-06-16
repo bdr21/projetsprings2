@@ -1,13 +1,8 @@
 package com.miola.exceptions;
 
 import com.miola.dto.BasicResponse;
-import com.miola.messages.ExceptionMessages;
-import io.jsonwebtoken.JwtException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/authentication-exception")

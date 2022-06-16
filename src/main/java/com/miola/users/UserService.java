@@ -1,5 +1,6 @@
 package com.miola.users;
 
+import com.miola.dto.ContactRequest;
 import com.miola.dto.LoginRequest;
 import com.miola.dto.SignUpRequest;
 import com.miola.dto.UserDetailsWithoutPwd;
@@ -13,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +62,7 @@ public class UserService {
         userRepository.save(newUser);
     }
 
-    public String login(LoginRequest loginRequest) {
+    public String login(LoginRequest loginRequest, HttpServletResponse res) {
 
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
@@ -83,7 +86,13 @@ public class UserService {
 
         CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
 
-        return jwtUtil.generateToken(userDetails);
+        String token = jwtUtil.generateToken(userDetails);
+
+        Cookie cookie = new Cookie("jwt", token);
+        cookie.setMaxAge(10 * 60 * 60);
+        res.addCookie(cookie);
+
+        return token;
     }
 
     public UserDetailsWithoutPwd me(String token) {
@@ -129,6 +138,8 @@ public class UserService {
     public Optional<UserModel> getOneById(int id) {
         return userRepository.findById(id);
     }
+
+    public Optional<UserModel> getOneByRole(String role) { return userRepository.findByRole(role); }
 
     public void deleteOne(int id) {
         userRepository.deleteById(id);

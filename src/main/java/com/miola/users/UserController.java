@@ -1,16 +1,20 @@
 package com.miola.users;
 
 import com.miola.dto.*;
-import com.miola.messages.ControllerMessages;
-import com.miola.messages.UtilMessages;
+import com.miola.responseMessages.ControllerMessages;
+import com.miola.responseMessages.UtilMessages;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true")
 public class UserController {
 
     @Autowired
@@ -25,10 +29,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseWithToken> login(@RequestBody @Validated LoginRequest loginRequest) throws Exception {
-        String token = userService.login(loginRequest);
+    public ResponseEntity<ResponseWithToken> login(@RequestBody @Validated LoginRequest loginRequest , HttpServletResponse res) throws Exception {
+        String token = userService.login(loginRequest,res);
         ResponseWithToken response = new ResponseWithToken(HttpStatus.OK, ControllerMessages.LOG_IN_SUCCESS_MESSAGE, token);
-        return new ResponseEntity<>(response, response.getStatus());
+        ResponseEntity<ResponseWithToken> re = new ResponseEntity<>(response, response.getStatus());
+        return re;
     }
 
     @GetMapping("/me")
@@ -38,6 +43,5 @@ public class UserController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 
 }

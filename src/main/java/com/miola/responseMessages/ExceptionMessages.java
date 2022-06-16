@@ -1,4 +1,4 @@
-package com.miola.messages;
+package com.miola.responseMessages;
 
 import lombok.Getter;
 
