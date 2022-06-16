@@ -45,6 +45,14 @@ public class UserModel {
         this.role = role;
     }
 
+    public UserModel(String email, String firstName, String lastName, String password, String address) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.address = address;
+    }
+
     public List<SimpleGrantedAuthority> getRoleAsAuthorities() {
         List<SimpleGrantedAuthority> authorities = Arrays.asList(
                 new SimpleGrantedAuthority(this.role)
