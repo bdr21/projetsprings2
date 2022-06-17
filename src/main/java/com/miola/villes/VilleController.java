@@ -3,7 +3,7 @@ package com.miola.villes;
 import com.miola.dto.ResponseWithArray;
 import com.miola.endroits.EndroitModel;
 import com.miola.exceptions.ResourceNotFoundException;
-import com.miola.messages.ControllerMessages;
+import com.miola.responseMessages.ControllerMessages;
 import com.miola.reviews.ReviewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

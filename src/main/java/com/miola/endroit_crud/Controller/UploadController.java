@@ -1,7 +1,7 @@
 package com.miola.endroit_crud.Controller;
 
 
-import com.example.endroit_crud.Models.ResponseResul;
+import com.miola.endroit_crud.Models.ResponseResul;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
