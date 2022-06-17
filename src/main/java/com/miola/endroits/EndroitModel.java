@@ -1,17 +1,19 @@
 package com.miola.endroits;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.miola.villes.VilleModel;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Getter @Setter
 @Entity
 @Table(name = "endroits")
@@ -21,7 +23,13 @@ public class EndroitModel {
     private int id;
     @NotBlank(message = "Le nom ne peut pas être vide !")
     private String name;
-    @NotBlank
-    private String ville;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ville_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private VilleModel ville;
+
+
 
 }

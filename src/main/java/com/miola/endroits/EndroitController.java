@@ -2,21 +2,17 @@ package com.miola.endroits;
 
 
 import com.miola.dto.ResponseWithArray;
+import com.miola.exceptions.ResourceNotFoundException;
 import com.miola.messages.ControllerMessages;
+import com.miola.villes.VilleModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/endroits")
@@ -25,13 +21,9 @@ public class EndroitController {
     @Autowired
     private EndroitService endroitService;
 
-    public List<EndroitModel> populateList() {
-        List<EndroitModel> dataList = new ArrayList<>();
-        dataList.add(new EndroitModel(1,"wad l9annar","Tetouan"));
-        dataList.add(new EndroitModel(2,"badis","Nador"));
-        dataList.add(new EndroitModel(3,"les jardins","Rabat"));
-        return dataList;
-    }
+    @Autowired
+    private EndroitRepository endroitRepository;
+
 
     @GetMapping(path = "")
     @ResponseStatus(code = HttpStatus.OK)
@@ -41,32 +33,26 @@ public class EndroitController {
         return new ResponseEntity<ResponseWithArray>(response, response.getStatus());
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<EndroitModel> getOne(@PathVariable int id) {
-        List<EndroitModel> le = populateList();
-        EndroitModel endroit = null;
-        for (EndroitModel e : le) {
-            if (e.getId() == id) endroit = e;
-        }
+
+    @PostMapping("")
+    public ResponseEntity<EndroitModel> addEndroit(@RequestBody EndroitModel endroit) {
+        EndroitModel _endroit = endroitService.save(new EndroitModel(endroit.getId(), endroit.getName(),endroit.getVille()));
+        return new ResponseEntity<>(_endroit, HttpStatus.CREATED);
+    }
+
+    // search endroits by id
+    @GetMapping(path="/{id}")
+    public ResponseEntity<EndroitModel> getEndroitById(@PathVariable("id") int id) {
+        EndroitModel endroit = endroitRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found Endroit with id = " + id));
         return new ResponseEntity<>(endroit, HttpStatus.OK);
     }
 
-    @PostMapping(path = "")
-    public ResponseEntity<Object> addOne(@Validated @RequestBody EndroitModel endroit) {
-        List<EndroitModel> le = new ArrayList<>();
-        le.add(endroit);
-        return new ResponseEntity<>(endroit, HttpStatus.CREATED);
+
+    @DeleteMapping(path="/{id}")
+    public ResponseEntity<HttpStatus> deleteEndroit(@PathVariable("id") int id) {
+        endroitRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-//        Map<String, String> errors = new HashMap<>();
-//        ex.getBindingResult().getAllErrors().forEach((error) -> {
-//            String fieldName = ((FieldError) error).getField();
-//            String errorMessage = error.getDefaultMessage();
-//            errors.put(fieldName, errorMessage);
-//        });
-//        return errors;
-//    }
 }
