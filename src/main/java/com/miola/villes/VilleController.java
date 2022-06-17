@@ -45,12 +45,14 @@ public class VilleController {
     }
 
     //Get All Endroit of a City
-    @GetMapping(path = "/{id}/reviews")
+    @GetMapping(path = "/{id}/endroits")
     public ResponseEntity<List<EndroitModel>> getEndroitOfCity(@PathVariable("id") int id){
         VilleModel ville = villeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found City with id = " + id));
         return new ResponseEntity<>(ville.getEndroits(), HttpStatus.OK);
     }
+
+
 
 
     @PutMapping(path="/{id}")

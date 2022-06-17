@@ -53,6 +53,6 @@ public class UserModel {
         return authorities;
     }
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ReviewModel> reviews;
 }

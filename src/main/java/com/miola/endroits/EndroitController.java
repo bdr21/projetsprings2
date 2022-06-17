@@ -32,7 +32,11 @@ public class EndroitController {
 
     @GetMapping(path = "")
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseEntity<ResponseWithArray> getAll() {
+    public ResponseEntity<?> getAll(@RequestParam(value="name" , required = false) String name) {
+        if (name != null) {
+            Optional<EndroitModel> endroit = endroitRepository.findByName(name);
+            return new ResponseEntity<>(endroit.get(), HttpStatus.OK);
+        }
         List<EndroitModel> list = endroitService.getAll();
         ResponseWithArray response = new ResponseWithArray(HttpStatus.OK, ControllerMessages.SUCCESS, list);
         return new ResponseEntity<ResponseWithArray>(response, response.getStatus());
@@ -46,7 +50,6 @@ public class EndroitController {
         return new ResponseEntity<>(_endroit, HttpStatus.CREATED);
     }
 
-    // search endroits by id
     @GetMapping(path="/{id}")
     public ResponseEntity<EndroitModel> getEndroitById(@PathVariable("id") int id) {
         EndroitModel endroit = endroitRepository.findById(id)
@@ -79,14 +82,24 @@ public class EndroitController {
     }
 
 
-    @GetMapping(path="/{name}")
-    public ResponseEntity<Optional<EndroitModel>> getEndroitByName(@PathVariable("name") String name) {
-        Optional<EndroitModel> endroit = endroitRepository.findEndroitModelByName(name);
-        if (endroit.isEmpty()) {
+    /*@GetMapping("/{name}")
+    public ResponseEntity<List<EndroitModel>> getEndroitByName(@PathVariable("name") String name) {
+
+        List<EndroitModel> endroits = endroitRepository.findByName(name);
+        if (endroits.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(endroit, HttpStatus.OK);
-    }
+
+        return new ResponseEntity<>(endroits, HttpStatus.OK);
+    }*/
+
+
+
+
+
+
+
+
 
 
 

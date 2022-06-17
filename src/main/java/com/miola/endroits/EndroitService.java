@@ -20,5 +20,10 @@ public class EndroitService {
         return endroitRepository.save(endroitModel);
     }
 
+    /*public List<EndroitModel> search(String query) {
+        List<EndroitModel> products = endroitRepository.search(query);
+        return products;
+    }*/
+
 
 }

@@ -33,7 +33,7 @@ public class EndroitModel {
     private VilleModel ville;
 
 
-    @OneToMany(mappedBy = "endroits", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "endroit", cascade = CascadeType.ALL)
     private List<ReviewModel> reviews;
 
 

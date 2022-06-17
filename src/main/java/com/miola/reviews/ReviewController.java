@@ -32,7 +32,7 @@ public class ReviewController {
 
     @PostMapping("")
     public ResponseEntity<ReviewModel> addReview(@RequestBody ReviewModel review) {
-        ReviewModel _review = reviewService.save(new ReviewModel(review.getId(),review.getContenu(),review.getEndroits(),review.getUsers()));
+        ReviewModel _review = reviewService.save(review);
         return new ResponseEntity<>(_review, HttpStatus.CREATED);
     }
 
