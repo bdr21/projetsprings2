@@ -1,4 +1,4 @@
-package com.miola.messages;
+package com.miola.responseMessages;
 
 public class ControllerMessages {
     public static final String SIGN_UP_SUCCESS_MESSAGE = "You have successfully registered as a member.";

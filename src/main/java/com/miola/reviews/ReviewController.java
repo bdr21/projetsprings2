@@ -3,7 +3,7 @@ package com.miola.reviews;
 import com.miola.dto.ResponseWithArray;
 import com.miola.endroits.EndroitModel;
 import com.miola.exceptions.ResourceNotFoundException;
-import com.miola.messages.ControllerMessages;
+import com.miola.responseMessages.ControllerMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

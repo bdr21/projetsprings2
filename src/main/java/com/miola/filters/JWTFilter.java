@@ -1,23 +1,20 @@
 package com.miola.filters;
 
-import com.miola.exceptions.CorruptTokenException;
-import com.miola.exceptions.InvalidTokenException;
-import com.miola.exceptions.NotLoggedInOrInvalidAuthorizationHeaderException;
-import com.miola.messages.ExceptionMessages;
+import com.miola.responseMessages.ExceptionMessages;
 import com.miola.users.CustomUserDetails;
 import com.miola.users.CustomUserDetailsService;
 import com.miola.util.JWTUtil;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.*;
-import javax.servlet.annotation.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -38,10 +35,19 @@ public class JWTFilter extends OncePerRequestFilter {
         String email = null;
 
         String authorization = req.getHeader("Authorization");
+        Cookie tokenCookie = WebUtils.getCookie(req, "jwt");
 
-        if(authorization != null && authorization.startsWith("Bearer ")) {
+        boolean condition1 = authorization != null && authorization.startsWith("Bearer ");
+        boolean condition2 = tokenCookie != null && tokenCookie.getValue() != null;
+
+        if(condition1 || condition2) {
             try {
-                token = authorization.substring(7);
+                if (condition1) {
+                    token = authorization.substring(7);
+                }
+                if (condition2) {
+                    token = tokenCookie.getValue();
+                }
                 email = jwtUtil.extractUsername(token);
                 if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(email);

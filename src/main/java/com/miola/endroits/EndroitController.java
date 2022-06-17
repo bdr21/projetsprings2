@@ -2,14 +2,15 @@ package com.miola.endroits;
 
 
 import com.miola.dto.ResponseWithArray;
+
 import com.miola.exceptions.ResourceNotFoundException;
-import com.miola.messages.ControllerMessages;
+import com.miola.responseMessages.ControllerMessages;
 import com.miola.reviews.ReviewModel;
-import com.miola.villes.VilleModel;
 import com.miola.villes.VilleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

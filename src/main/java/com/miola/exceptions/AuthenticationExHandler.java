@@ -1,7 +1,6 @@
 package com.miola.exceptions;
 
-import com.miola.messages.ExceptionMessages;
-import io.jsonwebtoken.JwtException;
+import com.miola.responseMessages.ExceptionMessages;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.Optional;
 
