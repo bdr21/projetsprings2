@@ -15,4 +15,15 @@ public class EndroitService {
     public List<EndroitModel> getAll() {
         return endroitRepository.findAll();
     }
+
+    public EndroitModel save(EndroitModel endroitModel) {
+        return endroitRepository.save(endroitModel);
+    }
+
+    /*public List<EndroitModel> search(String query) {
+        List<EndroitModel> products = endroitRepository.search(query);
+        return products;
+    }*/
+
+
 }

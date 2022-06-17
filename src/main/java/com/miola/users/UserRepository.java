@@ -1,5 +1,6 @@
 package com.miola.users;
 
+import com.miola.endroits.EndroitModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
