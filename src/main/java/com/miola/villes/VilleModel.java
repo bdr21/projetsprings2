@@ -20,4 +20,7 @@ public class VilleModel {
     private int id;
     @NotBlank
     private String ville_name;
+
+    @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL)
+    private List<EndroitModel> endroits;
 }

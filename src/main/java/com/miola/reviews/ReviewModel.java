@@ -29,11 +29,14 @@ public class ReviewModel {
     @JoinColumn(name = "endroit_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private EndroitModel endroit;
+    private EndroitModel endroits;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private UserModel user;
+    private UserModel users;
+
+
+
 }

@@ -1,8 +1,10 @@
 package com.miola.villes;
 
 import com.miola.dto.ResponseWithArray;
+import com.miola.endroits.EndroitModel;
 import com.miola.exceptions.ResourceNotFoundException;
 import com.miola.messages.ControllerMessages;
+import com.miola.reviews.ReviewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,6 @@ public class VilleController {
     @Autowired
     private VilleRepository villeRepository;
 
-
     @GetMapping(path = "")
     @ResponseStatus(code = HttpStatus.OK)
     public ResponseEntity<ResponseWithArray> getAllCity() {
@@ -32,7 +33,7 @@ public class VilleController {
 
     @PostMapping("")
     public ResponseEntity<VilleModel> addCity(@RequestBody VilleModel ville) {
-        VilleModel _ville = villeService.save(new VilleModel(ville.getId(), ville.getVille_name()));
+        VilleModel _ville = villeService.save(new VilleModel(ville.getId(), ville.getVille_name(), ville.getEndroits()));
         return new ResponseEntity<>(_ville, HttpStatus.CREATED);
     }
 
@@ -43,12 +44,21 @@ public class VilleController {
         return new ResponseEntity<>(ville, HttpStatus.OK);
     }
 
+    //Get All Endroit of a City
+    @GetMapping(path = "/{id}/reviews")
+    public ResponseEntity<List<EndroitModel>> getEndroitOfCity(@PathVariable("id") int id){
+        VilleModel ville = villeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found City with id = " + id));
+        return new ResponseEntity<>(ville.getEndroits(), HttpStatus.OK);
+    }
+
+
     @PutMapping(path="/{id}")
-    public ResponseEntity<VilleModel> updateCity(@PathVariable("id") int id, @RequestBody VilleModel ville) {
-        VilleModel _ville = villeRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found city with id = " + id));
-        _ville.setVille_name(ville.getVille_name());
-        return new ResponseEntity<>(villeRepository.save(_ville), HttpStatus.OK);
+    public ResponseEntity<VilleModel> updateCity(@PathVariable("id") int id, @RequestBody VilleModel villeRequest) {
+        VilleModel ville = villeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("CityId " + id + "not found"));
+        ville.setVille_name(villeRequest.getVille_name());
+        return new ResponseEntity<>(villeRepository.save(ville), HttpStatus.OK);
     }
 
     @DeleteMapping(path="/{id}")
@@ -65,13 +75,15 @@ public class VilleController {
 
 
     /*@GetMapping(path="/{ville_name}")
-    public ResponseEntity<List<VilleModel>> getCityByName(@PathVariable("ville_name") String name) {
-        List<VilleModel> villes = villeRepository.findVilleModelByVille_name(name);
+    public ResponseEntity<Optional<VilleModel>> getCityByName(@PathVariable("ville_name") String name) {
+        Optional<VilleModel> villes = villeRepository.findByVille_name(name);
         if (villes.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(villes, HttpStatus.OK);
     }*/
+
+
 
 
 }

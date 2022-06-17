@@ -32,7 +32,7 @@ public class ReviewController {
 
     @PostMapping("")
     public ResponseEntity<ReviewModel> addReview(@RequestBody ReviewModel review) {
-        ReviewModel _review = reviewService.save(new ReviewModel(review.getId(),review.getContenu(),review.getEndroit(),review.getUser()));
+        ReviewModel _review = reviewService.save(new ReviewModel(review.getId(),review.getContenu(),review.getEndroits(),review.getUsers()));
         return new ResponseEntity<>(_review, HttpStatus.CREATED);
     }
 
@@ -44,6 +44,13 @@ public class ReviewController {
         return new ResponseEntity<>(review, HttpStatus.OK);
     }
 
+    @PutMapping(path="/{id}")
+    public ResponseEntity<ReviewModel> updateReview(@PathVariable("id") int id, @RequestBody ReviewModel reviewRequest) {
+        ReviewModel review = reviewRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("ReviewId " + id + "not found"));
+        review.setContenu(reviewRequest.getContenu());
+        return new ResponseEntity<>(reviewRepository.save(review), HttpStatus.OK);
+    }
 
     @DeleteMapping(path="/{id}")
     public ResponseEntity<HttpStatus> deleteReview(@PathVariable("id") int id) {

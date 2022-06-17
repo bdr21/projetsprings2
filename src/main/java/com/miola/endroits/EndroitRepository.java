@@ -9,5 +9,7 @@ import java.util.Optional;
 @Repository
 public interface EndroitRepository extends JpaRepository<EndroitModel, Integer> {
 
+    List<EndroitModel> findEndroitModelByVille(int id);
 
+    Optional<EndroitModel> findEndroitModelByName(String name);
 }

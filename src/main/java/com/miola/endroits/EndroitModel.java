@@ -3,6 +3,7 @@ package com.miola.endroits;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.miola.reviews.ReviewModel;
 import com.miola.villes.VilleModel;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,6 +32,9 @@ public class EndroitModel {
     @JsonIgnore
     private VilleModel ville;
 
+
+    @OneToMany(mappedBy = "endroits", cascade = CascadeType.ALL)
+    private List<ReviewModel> reviews;
 
 
 }

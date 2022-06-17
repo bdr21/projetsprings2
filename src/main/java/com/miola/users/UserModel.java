@@ -1,5 +1,6 @@
 package com.miola.users;
 
+import com.miola.reviews.ReviewModel;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -51,4 +52,7 @@ public class UserModel {
         );
         return authorities;
     }
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<ReviewModel> reviews;
 }
