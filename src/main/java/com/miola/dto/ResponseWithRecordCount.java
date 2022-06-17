@@ -15,6 +15,6 @@ public class ResponseWithRecordCount<T>{
     private HttpStatus status;
     private String message;
     int recordCount;
-    private List<?> data;
+    private T data;
 
 }

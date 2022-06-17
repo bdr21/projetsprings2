@@ -5,11 +5,13 @@ import com.miola.dto.ResponseWithRecordCount;
 import com.miola.messages.ControllerMessages;
 import com.miola.users.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,15 +46,44 @@ public class EndroitController {
         return new ResponseEntity<>(response, response.getStatus());
     }
 
-    // A voir
+    // return all endroits sorted by the specified field (url : http://localhost:8080/endroits/all?sortBy=id)
+    @GetMapping(path = "/all/sorting")
+    public ResponseEntity<ResponseWithRecordCount> getAllEndroitsWithSort(@RequestParam(name = "sortBy") String sortBy){
+        List<EndroitModel> list = endroitService.findEndroitsWithSorting(sortBy);
+        ResponseWithRecordCount response = new ResponseWithRecordCount(HttpStatus.OK, ControllerMessages.SUCCESS, list.size(), list);
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @GetMapping(path = "/all/pagination")
+    public ResponseEntity<ResponseWithRecordCount> getAllEndroitsWithPagination(
+            @RequestParam(name = "offset") int offset,
+            @RequestParam(name = "pageSize") int pageSize){
+        Page<EndroitModel> list = endroitService.findEndroitsWithPagination(offset, pageSize);
+        ResponseWithRecordCount response = new ResponseWithRecordCount(HttpStatus.OK, ControllerMessages.SUCCESS, list.getSize(), list);
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @GetMapping(path = "/all/paginationAndSorting")
+    public ResponseEntity<ResponseWithRecordCount> getAllEndroitsWithPaginationAndSorting(
+            @RequestParam(name = "offset") int offset,
+            @RequestParam(name = "pageSize") int pageSize,
+            @RequestParam(name = "sortBy") String sortBy){
+        Page<EndroitModel> list = endroitService.findEndroitsWithPaginationAndSorting(offset, pageSize, sortBy);
+        ResponseWithRecordCount response = new ResponseWithRecordCount(HttpStatus.OK, ControllerMessages.SUCCESS, list.getSize(), list);
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<EndroitModel> getOne(@PathVariable int id) {
-        List<EndroitModel> le = populateList();
+        List<EndroitModel> le = endroitService.getAll();
         EndroitModel endroit = null;
         for (EndroitModel e : le) {
-            if (e.getId() == id) endroit = e;
+            if (e.getId() == id) {
+                endroit = e;
+                return new ResponseEntity<>(endroit, HttpStatus.OK);
+            }
         }
-        return new ResponseEntity<>(endroit, HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     // search endroits by ville
