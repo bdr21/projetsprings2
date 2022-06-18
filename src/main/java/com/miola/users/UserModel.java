@@ -1,5 +1,6 @@
 package com.miola.users;
 
+import com.miola.dto.UserDetailsWithoutPwd;
 import com.miola.reviews.ReviewModel;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Pattern;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -53,6 +55,7 @@ public class UserModel {
         this.password = password;
         this.address = address;
     }
+
 
     public List<SimpleGrantedAuthority> getRoleAsAuthorities() {
         List<SimpleGrantedAuthority> authorities = Arrays.asList(

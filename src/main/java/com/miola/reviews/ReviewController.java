@@ -22,18 +22,13 @@ public class ReviewController {
     private ReviewRepository reviewRepository;
 
 
+    //Afficher tous les reviews
     @GetMapping(path = "")
     @ResponseStatus(code = HttpStatus.OK)
     public ResponseEntity<ResponseWithArray> getAll() {
         List<ReviewModel> list = reviewService.getAll();
         ResponseWithArray response = new ResponseWithArray(HttpStatus.OK, ControllerMessages.SUCCESS, list);
         return new ResponseEntity<ResponseWithArray>(response, response.getStatus());
-    }
-
-    @PostMapping("")
-    public ResponseEntity<ReviewModel> addReview(@RequestBody ReviewModel review) {
-        ReviewModel _review = reviewService.save(review);
-        return new ResponseEntity<>(_review, HttpStatus.CREATED);
     }
 
     // search reviews by id
@@ -44,7 +39,8 @@ public class ReviewController {
         return new ResponseEntity<>(review, HttpStatus.OK);
     }
 
-    @PutMapping(path="/{id}")
+    //Modifier un review
+    @PostMapping(path="/{id}")
     public ResponseEntity<ReviewModel> updateReview(@PathVariable("id") int id, @RequestBody ReviewModel reviewRequest) {
         ReviewModel review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ReviewId " + id + "not found"));
@@ -52,6 +48,7 @@ public class ReviewController {
         return new ResponseEntity<>(reviewRepository.save(review), HttpStatus.OK);
     }
 
+    //Supprimer un review
     @DeleteMapping(path="/{id}")
     public ResponseEntity<HttpStatus> deleteReview(@PathVariable("id") int id) {
         reviewRepository.deleteById(id);
