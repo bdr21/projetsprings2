@@ -63,6 +63,12 @@ public class UserController {
         return customUserDetails.getUserId();
     }
 
+    // this method returns the logged-in user
+    public Optional<UserModel> currentUser(){
+        Optional<UserModel> userModel = userService.getOneById(currentUserName(SecurityContextHolder.getContext().getAuthentication()));
+        return userModel;
+    }
+
     //get all info about the logged-in user
     @GetMapping("/profile")
     public ResponseEntity<UserModel> profile(){
