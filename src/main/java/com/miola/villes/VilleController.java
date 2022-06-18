@@ -41,20 +41,30 @@ public class VilleController {
         return new ResponseEntity<ResponseWithArray>(response, response.getStatus());
     }
 
+    //Ajouter une ville
     @PostMapping("")
     public ResponseEntity<VilleModel> addCity(@RequestBody VilleModel ville) {
         VilleModel _ville = villeService.save(new VilleModel(ville.getId(), ville.getVillename(), ville.getEndroits()));
         return new ResponseEntity<>(_ville, HttpStatus.CREATED);
     }
 
+    //Ajouter un endroit à une ville
+    @PostMapping(path = "/{id}/endroits")
+    public ResponseEntity<EndroitModel> addEndroitToCity(@Validated @PathVariable("id") int id,@RequestBody EndroitModel endroit){
+        VilleModel ville = villeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found City with id = " + id));
+        EndroitModel _endroit = endroitService.save(new EndroitModel(endroit.getId(), endroit.getName(), endroit.getDescription(), endroit.getImage(), ville, endroit.getReviews()));
+        return new ResponseEntity<>(_endroit, HttpStatus.CREATED);
+        //return new ResponseEntity<>(ville.getEndroits(), HttpStatus.OK);
+    }
+
+    //Afficher une ville à partir de son Id
     @GetMapping(path="/{id}")
     public ResponseEntity<VilleModel> getCityById(@PathVariable("id") int id) {
         VilleModel ville = villeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found city with id = " + id));
         return new ResponseEntity<>(ville, HttpStatus.OK);
     }
-
-
 
     //Get All Endroit of a City
     @GetMapping(path = "/{id}/endroits")
@@ -64,8 +74,8 @@ public class VilleController {
         return new ResponseEntity<>(ville.getEndroits(), HttpStatus.OK);
     }
 
-
-    @PutMapping(path="/{id}")
+    //Mosifier une ville
+    @PostMapping(path="/{id}")
     public ResponseEntity<VilleModel> updateCity(@PathVariable("id") int id, @RequestBody VilleModel villeRequest) {
         VilleModel ville = villeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("CityId " + id + "not found"));
@@ -73,12 +83,14 @@ public class VilleController {
         return new ResponseEntity<>(villeRepository.save(ville), HttpStatus.OK);
     }
 
+    //Supprimer une ville
     @DeleteMapping(path="/{id}")
     public ResponseEntity<HttpStatus> deleteCity(@PathVariable("id") int id) {
         villeRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    //Supprimer tous les villes
     @DeleteMapping(path="")
     public ResponseEntity<HttpStatus> deleteAllCity() {
         villeRepository.deleteAll();
@@ -86,15 +98,7 @@ public class VilleController {
     }
 
 
-    //Ajouter un endroit à une ville
-    @PutMapping(path = "/{id}/endroits")
-    public ResponseEntity<EndroitModel> addEndroitToCity(@Validated @PathVariable("id") int id,@RequestBody EndroitModel endroit){
-        VilleModel ville = villeRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found City with id = " + id));
-        EndroitModel _endroit = endroitService.save(new EndroitModel(endroit.getId(), endroit.getName(), endroit.getDescription(), endroit.getImage(), ville, endroit.getReviews()));
-        return new ResponseEntity<>(_endroit, HttpStatus.CREATED);
-        //return new ResponseEntity<>(ville.getEndroits(), HttpStatus.OK);
-    }
+
 
 
 
