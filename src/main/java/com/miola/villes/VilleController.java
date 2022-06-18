@@ -2,6 +2,7 @@ package com.miola.villes;
 
 import com.miola.dto.ResponseWithArray;
 import com.miola.endroits.EndroitModel;
+import com.miola.endroits.EndroitService;
 import com.miola.exceptions.ResourceNotFoundException;
 import com.miola.responseMessages.ControllerMessages;
 import com.miola.reviews.ReviewModel;
@@ -23,6 +24,9 @@ public class VilleController {
 
     @Autowired
     private VilleRepository villeRepository;
+
+    @Autowired
+    private EndroitService endroitService;
 
     //Afficher tous les villes ou bien une seule avec son nom
     @GetMapping(path = "")
@@ -50,6 +54,8 @@ public class VilleController {
         return new ResponseEntity<>(ville, HttpStatus.OK);
     }
 
+
+
     //Get All Endroit of a City
     @GetMapping(path = "/{id}/endroits")
     public ResponseEntity<List<EndroitModel>> getEndroitOfCity(@PathVariable("id") int id){
@@ -57,8 +63,6 @@ public class VilleController {
                 .orElseThrow(() -> new ResourceNotFoundException("Not found City with id = " + id));
         return new ResponseEntity<>(ville.getEndroits(), HttpStatus.OK);
     }
-
-
 
 
     @PutMapping(path="/{id}")
@@ -82,14 +86,15 @@ public class VilleController {
     }
 
 
-    /*@GetMapping(path="/{ville_name}")
-    public ResponseEntity<Optional<VilleModel>> getCityByName(@PathVariable("ville_name") String name) {
-        Optional<VilleModel> villes = villeRepository.findByVille_name(name);
-        if (villes.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(villes, HttpStatus.OK);
-    }*/
+    //Ajouter un endroit à une ville
+    @PutMapping(path = "/{id}/endroits")
+    public ResponseEntity<EndroitModel> addEndroitToCity(@Validated @PathVariable("id") int id,@RequestBody EndroitModel endroit){
+        VilleModel ville = villeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found City with id = " + id));
+        EndroitModel _endroit = endroitService.save(new EndroitModel(endroit.getId(), endroit.getName(), endroit.getDescription(), endroit.getImage(), ville, endroit.getReviews()));
+        return new ResponseEntity<>(_endroit, HttpStatus.CREATED);
+        //return new ResponseEntity<>(ville.getEndroits(), HttpStatus.OK);
+    }
 
 
 

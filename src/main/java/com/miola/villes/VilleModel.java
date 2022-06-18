@@ -1,5 +1,6 @@
 package com.miola.villes;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.miola.endroits.EndroitModel;
 import lombok.*;
 
@@ -22,6 +23,7 @@ public class VilleModel {
     @Column(name = "ville_name")
     private String villename;
 
+    //@JsonManagedReference
     @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL)
     private List<EndroitModel> endroits;
 }

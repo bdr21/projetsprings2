@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,7 @@ public class EndroitService {
     public List<EndroitModel> getAll() {
         return endroitRepository.findAll();
     }
+
 
     public EndroitModel save(EndroitModel endroitModel) {
         return endroitRepository.save(endroitModel);

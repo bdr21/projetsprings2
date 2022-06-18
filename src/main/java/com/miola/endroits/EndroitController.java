@@ -6,6 +6,7 @@ import com.miola.dto.ResponseWithArray;
 import com.miola.exceptions.ResourceNotFoundException;
 import com.miola.responseMessages.ControllerMessages;
 import com.miola.reviews.ReviewModel;
+import com.miola.villes.VilleModel;
 import com.miola.villes.VilleRepository;
 import com.miola.dto.ResponseWithRecordCount;
 import com.miola.users.UserModel;
@@ -34,6 +35,7 @@ public class EndroitController {
     private VilleRepository villeRepository;
 
 
+
     //Afficher tous les endroits ou bien un seul avec son nom
     @GetMapping(path = "")
     @ResponseStatus(code = HttpStatus.OK)
@@ -46,6 +48,7 @@ public class EndroitController {
         ResponseWithArray response = new ResponseWithArray(HttpStatus.OK, ControllerMessages.SUCCESS, list);
         return new ResponseEntity<ResponseWithArray>(response, response.getStatus());
     }
+
 
     // return all endroits sorted by the specified field (url : http://localhost:8080/endroits/all?sortBy=id)
     @GetMapping(path = "/all/sorting")
@@ -75,12 +78,7 @@ public class EndroitController {
     }
 
 
-    @PostMapping("")
-    public ResponseEntity<EndroitModel> addEndroit(@RequestBody EndroitModel endroit) {
-        endroit.getVille().getVillename();
-        EndroitModel _endroit = endroitService.save(endroit);
-        return new ResponseEntity<>(_endroit, HttpStatus.CREATED);
-    }
+
 
     /*@PostMapping(path = "")
     public ResponseEntity<Object> addEndroit(@Validated @RequestBody EndroitModel endroit) {
@@ -120,7 +118,7 @@ public class EndroitController {
     }
 
 
-    // search endroits by ville
+    /*// search endroits by ville
     @GetMapping(path = "/ville/{ville}")
     public ResponseEntity<List<EndroitModel>> getEndroitsByVille(@PathVariable String ville) {
         // get all endroits from DB
@@ -145,7 +143,7 @@ public class EndroitController {
                 return new ResponseEntity<>(e, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-    }
+    }*/
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity<Object> updateEndroit(@Validated @RequestBody EndroitModel endroit){

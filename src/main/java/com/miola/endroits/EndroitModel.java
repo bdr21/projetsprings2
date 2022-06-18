@@ -2,7 +2,9 @@ package com.miola.endroits;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.miola.reviews.ReviewModel;
 import com.miola.villes.VilleModel;
 import lombok.*;
@@ -30,6 +32,8 @@ public class EndroitModel {
     //@NotBlank(message = "Le message ne peut pas être vide !")
     private String image;
 
+    //@JsonBackReference
+    //@JsonIgnoreProperties("ville")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ville_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
