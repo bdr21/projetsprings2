@@ -19,7 +19,8 @@ public class VilleModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @NotBlank
-    private String ville_name;
+    @Column(name = "ville_name")
+    private String villename;
 
     @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL)
     private List<EndroitModel> endroits;

@@ -8,6 +8,7 @@ import com.miola.reviews.ReviewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +24,14 @@ public class VilleController {
     @Autowired
     private VilleRepository villeRepository;
 
+    //Afficher tous les villes ou bien une seule avec son nom
     @GetMapping(path = "")
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseEntity<ResponseWithArray> getAllCity() {
+    public ResponseEntity<?> getAll(@Validated @RequestParam(value="name" , required = false) String name) {
+        if (name != null) {
+            Optional<VilleModel> ville = villeRepository.findByVillename(name);
+            return new ResponseEntity<>(ville.get(), HttpStatus.OK);
+        }
         List<VilleModel> list = villeService.getAll();
         ResponseWithArray response = new ResponseWithArray(HttpStatus.OK, ControllerMessages.SUCCESS, list);
         return new ResponseEntity<ResponseWithArray>(response, response.getStatus());
@@ -33,7 +39,7 @@ public class VilleController {
 
     @PostMapping("")
     public ResponseEntity<VilleModel> addCity(@RequestBody VilleModel ville) {
-        VilleModel _ville = villeService.save(new VilleModel(ville.getId(), ville.getVille_name(), ville.getEndroits()));
+        VilleModel _ville = villeService.save(new VilleModel(ville.getId(), ville.getVillename(), ville.getEndroits()));
         return new ResponseEntity<>(_ville, HttpStatus.CREATED);
     }
 
@@ -59,7 +65,7 @@ public class VilleController {
     public ResponseEntity<VilleModel> updateCity(@PathVariable("id") int id, @RequestBody VilleModel villeRequest) {
         VilleModel ville = villeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("CityId " + id + "not found"));
-        ville.setVille_name(villeRequest.getVille_name());
+        ville.setVillename(villeRequest.getVillename());
         return new ResponseEntity<>(villeRepository.save(ville), HttpStatus.OK);
     }
 

@@ -34,6 +34,7 @@ public class EndroitController {
     private VilleRepository villeRepository;
 
 
+    //Afficher tous les endroits ou bien un seul avec son nom
     @GetMapping(path = "")
     @ResponseStatus(code = HttpStatus.OK)
     public ResponseEntity<?> getAll(@RequestParam(value="name" , required = false) String name) {
@@ -76,8 +77,8 @@ public class EndroitController {
 
     @PostMapping("")
     public ResponseEntity<EndroitModel> addEndroit(@RequestBody EndroitModel endroit) {
-        endroit.getVille().getVille_name();
-        EndroitModel _endroit = endroitService.save(new EndroitModel(endroit.getId(), endroit.getName(),endroit.getVille(), endroit.getReviews()));
+        endroit.getVille().getVillename();
+        EndroitModel _endroit = endroitService.save(endroit);
         return new ResponseEntity<>(_endroit, HttpStatus.CREATED);
     }
 
@@ -104,7 +105,7 @@ public class EndroitController {
     }
 
     @PutMapping(path="/{id}")
-    public ResponseEntity<EndroitModel> updateEndroit(@PathVariable("id") int id, @RequestBody EndroitModel endroiRequest) {
+    public ResponseEntity<EndroitModel> updateEndroit(@Validated @PathVariable("id") int id, @RequestBody EndroitModel endroiRequest) {
         EndroitModel endroit = endroitRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("EndroitId " + id + "not found"));
         endroit.setName(endroiRequest.getName());

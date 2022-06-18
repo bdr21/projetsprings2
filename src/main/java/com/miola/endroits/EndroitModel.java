@@ -25,13 +25,16 @@ public class EndroitModel {
     private int id;
     @NotBlank(message = "Le nom ne peut pas être vide !")
     private String name;
+    //@NotBlank(message = "La description ne peut pas être vide !")
+    private String description;
+    //@NotBlank(message = "Le message ne peut pas être vide !")
+    private String image;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ville_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private VilleModel ville;
-
 
     @OneToMany(mappedBy = "endroit", cascade = CascadeType.ALL)
     private List<ReviewModel> reviews;
