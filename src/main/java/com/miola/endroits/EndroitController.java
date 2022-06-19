@@ -127,10 +127,11 @@ public class EndroitController {
         EndroitModel endroit = endroitRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found Endroit with id = " + id));
         Optional<UserModel> user = userController.currentUser();
-        ReviewModel _review = reviewService.save(new ReviewModel(review.getId(), review.getContenu(),endroit,user.get()));
+        ReviewModel _review = reviewService.save(new ReviewModel(review.getId(), review.getContenu(), review.getRating() , endroit,user.get()));
         return new ResponseEntity<>(_review, HttpStatus.CREATED);
 
     }
+
 
     /*// search endroits by ville
     @GetMapping(path = "/ville/{ville}")

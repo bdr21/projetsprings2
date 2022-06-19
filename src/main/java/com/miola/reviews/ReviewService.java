@@ -18,4 +18,11 @@ public class ReviewService {
     public ReviewModel save(ReviewModel reviewModel) {
         return reviewRepository.save(reviewModel);
     }
+
+    public Float getAvgRatingByEndroitId(int endroitId) {
+        return reviewRepository.getAvgRatingByEndroitId(endroitId);
+    }
+    public Integer getNumberOfReviewsByEndroitId(int endroitId) {
+        return reviewRepository.getNumberOfReviewsByEndroitId(endroitId);
+    }
 }

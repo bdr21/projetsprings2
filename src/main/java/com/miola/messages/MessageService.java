@@ -7,7 +7,9 @@ import com.miola.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class MessageService {
@@ -23,14 +25,13 @@ public class MessageService {
 
     public void contact(ContactRequest contactRequest) {
 
-        Optional<UserModel> userOp = userService.getOneByRole(UtilMessages.ADMIN);
+        List<UserModel> admins = userService.getAllByRole(UtilMessages.ADMIN);
+        String[] adminsEmails = admins.stream().map(UserModel::getEmail).toArray(String[]::new);
 
-        UserModel user = null;
+        emailService.sendSimpleMessage(adminsEmails, contactRequest.getSubject(), contactRequest.getMessage(), contactRequest.getEmail());
+    }
 
-        if (userOp.isPresent()) {
-            user = userOp.get();
-        }
-
-        emailService.sendSimpleMessage(user.getEmail(), contactRequest.getSubject(), contactRequest.getMessage());
+    public void addMessage(MessageModel messageModel) {
+        messageRepository.save(messageModel);
     }
 }

@@ -53,7 +53,7 @@ public class VilleController {
     public ResponseEntity<EndroitModel> addEndroitToCity(@Validated @PathVariable("id") int id,@RequestBody EndroitModel endroit){
         VilleModel ville = villeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found City with id = " + id));
-        EndroitModel _endroit = endroitService.save(new EndroitModel(endroit.getId(), endroit.getName(), endroit.getDescription(), endroit.getImage(), ville, endroit.getReviews()));
+        EndroitModel _endroit = endroitService.save(new EndroitModel(endroit.getId(), endroit.getName(), endroit.getDescription(), endroit.getImage(), endroit.getVideoLink() , ville, endroit.getReviews()));
         return new ResponseEntity<>(_endroit, HttpStatus.CREATED);
         //return new ResponseEntity<>(ville.getEndroits(), HttpStatus.OK);
     }

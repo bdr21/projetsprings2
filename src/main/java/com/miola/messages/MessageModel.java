@@ -29,6 +29,14 @@ public class MessageModel {
     @NotBlank
     private String message;
 
-//    @OneToMany
+    public MessageModel(String firstName, String lastName, String email, String subject, String message) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.subject = subject;
+        this.message = message;
+    }
+
+    //    @OneToMany
 //    private UserModel user;
 }

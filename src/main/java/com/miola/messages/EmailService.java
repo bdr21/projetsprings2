@@ -12,11 +12,10 @@ public class EmailService {
     @Autowired
     private JavaMailSender emailSender;
 
-    public void sendSimpleMessage(String to, String subject, String text) {
+    public void sendSimpleMessage(String[] to, String subject, String text, String from) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("noreply@springs2.com");
         message.setTo(to);
-        message.setSubject(subject);
+        message.setSubject(subject + " by " + from);
         message.setText(text);
         emailSender.send(message);
     }

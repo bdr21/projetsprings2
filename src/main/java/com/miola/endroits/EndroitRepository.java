@@ -13,5 +13,8 @@ public interface EndroitRepository extends JpaRepository<EndroitModel, Integer> 
 
     Optional<EndroitModel> findByName(String name);
 
+//    @Query("UPDATE EndroitModel e SET e.ratingAvg = ?1 WHERE e.id = ?2")
+//    void updateRatingAvg(float ratingAvg, int id);
+
 
 }

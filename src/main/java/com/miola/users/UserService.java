@@ -141,6 +141,8 @@ public class UserService {
 
     public Optional<UserModel> getOneByRole(String role) { return userRepository.findByRole(role); }
 
+    public List<UserModel> getAllByRole(String role) { return userRepository.findAllByRole(role); }
+
     public void deleteOne(int id) {
         userRepository.deleteById(id);
     }

@@ -2,6 +2,7 @@ package com.miola.reviews;
 
 import com.miola.dto.ResponseWithArray;
 import com.miola.endroits.EndroitModel;
+import com.miola.endroits.EndroitService;
 import com.miola.exceptions.ResourceNotFoundException;
 import com.miola.responseMessages.ControllerMessages;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/reviews")
@@ -17,6 +19,9 @@ public class ReviewController {
 
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private EndroitService endroitService;
 
     @Autowired
     private ReviewRepository reviewRepository;
@@ -31,6 +36,18 @@ public class ReviewController {
         return new ResponseEntity<ResponseWithArray>(response, response.getStatus());
     }
 
+//    @PostMapping("")
+//    public ResponseEntity<ReviewModel> addReview(@RequestBody ReviewModel review) {
+////        float _rating = review.getRating();
+////        int _idEndroit = review.getEndroit().getId();
+////
+////        Optional<EndroitModel> _endroitOp = endroitService.getOneById(_idEndroit);
+////        EndroitModel _endroit = _endroitOp.get();
+//
+//        ReviewModel _review = reviewService.save(review);
+//        return new ResponseEntity<>(_review, HttpStatus.CREATED);
+//    }
+
     // search reviews by id
     @GetMapping(path="/{id}")
     public ResponseEntity<ReviewModel> getReviewById(@PathVariable("id") int id) {
@@ -44,7 +61,14 @@ public class ReviewController {
     public ResponseEntity<ReviewModel> updateReview(@PathVariable("id") int id, @RequestBody ReviewModel reviewRequest) {
         ReviewModel review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ReviewId " + id + "not found"));
-        review.setContenu(reviewRequest.getContenu());
+        String contenu = reviewRequest.getContenu();
+        float rating = reviewRequest.getRating();
+        if (contenu != null) {
+            review.setContenu(contenu);
+        }
+        if (rating != 0) {
+            review.setRating(rating);
+        }
         return new ResponseEntity<>(reviewRepository.save(review), HttpStatus.OK);
     }
 

@@ -25,6 +25,8 @@ public class ReviewModel {
     @NotBlank(message = "Le contenu ne peut pas être vide !")
     private String contenu;
 
+    private float rating;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "endroit_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -38,5 +40,10 @@ public class ReviewModel {
     private UserModel user;
 
 
-
+    public ReviewModel(int id, String contenu, EndroitModel endroit, UserModel userModel) {
+        this.id = id;
+        this.contenu = contenu;
+        this.endroit = endroit;
+        this.user = userModel;
+    }
 }

@@ -10,7 +10,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Getter
 @Setter
 @Entity
@@ -26,4 +25,12 @@ public class VilleModel {
     //@JsonManagedReference
     @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL)
     private List<EndroitModel> endroits;
+
+    @Override
+    public String toString() {
+        return "VilleModel{" +
+                "id=" + id +
+                ", villename='" + villename + '\'' +
+                '}';
+    }
 }
