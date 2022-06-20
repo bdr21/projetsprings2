@@ -50,12 +50,29 @@ public class EndroitController {
     @ResponseStatus(code = HttpStatus.OK)
     public ResponseEntity<?> getAll(@RequestParam(value="name" , required = false) String name) {
         if (name != null) {
-            Optional<EndroitModel> endroit = endroitRepository.findByName(name);
-            return new ResponseEntity<>(endroit.get(), HttpStatus.OK);
+            Optional<EndroitModel> _endroit = endroitRepository.findByName(name);
+            EndroitModel endroit = _endroit.get();
+            EndroitDto endroitDto = new EndroitDto(endroit.getId(), endroit.getName(), endroit.getDescription(),
+                    endroit.getImage(), endroit.getVideoLink(),
+                    endroit.getRatingAvg(), endroit.getNumberOfReviews(),
+                    endroit.getVille().getId(),
+                    endroit.getVille().getVillename(),endroit.getReviews());
+            return new ResponseEntity<>(endroitDto, HttpStatus.OK);
         }
-        List<EndroitModel> list = endroitService.getAll();
-        ResponseWithArray response = new ResponseWithArray(HttpStatus.OK, ControllerMessages.SUCCESS, list);
-        return new ResponseEntity<ResponseWithArray>(response, response.getStatus());
+            List<EndroitModel> list = endroitService.getAll();
+            List<EndroitDto> list1 = new ArrayList<>();
+            for (EndroitModel e : list) {
+                EndroitDto endroitDto = new EndroitDto(e.getId(), e.getName(), e.getDescription(),
+                        e.getImage(), e.getVideoLink(),
+                        e.getRatingAvg(), e.getNumberOfReviews(),
+                        e.getVille().getId(),
+                        e.getVille().getVillename(), e.getReviews());
+
+                list1.add(endroitDto);
+            }
+            ResponseWithArray response = new ResponseWithArray(HttpStatus.OK, ControllerMessages.SUCCESS, list1);
+            return new ResponseEntity<ResponseWithArray>(response, response.getStatus());
+
     }
 
 
