@@ -1,6 +1,7 @@
 package com.miola.endroits;
 
 
+import com.miola.dto.EndroitDto;
 import com.miola.dto.ResponseWithArray;
 
 import com.miola.dto.UserDetailsWithoutPwd;
@@ -23,6 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +63,21 @@ public class EndroitController {
     @GetMapping(path = "/all/sorting")
     public ResponseEntity<ResponseWithRecordCount> getAllEndroitsWithSort(@RequestParam(name = "sortBy") String sortBy){
         List<EndroitModel> list = endroitService.findEndroitsWithSorting(sortBy);
-        ResponseWithRecordCount response = new ResponseWithRecordCount(HttpStatus.OK, ControllerMessages.SUCCESS, list.size(), list);
+        List<EndroitDto> endroitDtoList = new LinkedList<>();
+        for (EndroitModel endroit: list) {
+            endroitDtoList.add(new EndroitDto(
+                    endroit.getId(),
+                    endroit.getName(),
+                    endroit.getDescription(),
+                    endroit.getImage(),
+                    endroit.getVideoLink(),
+                    endroit.getRatingAvg(), endroit.getNumberOfReviews(),
+                    endroit.getVille().getId(),
+                    endroit.getVille().getVillename(),
+                    endroit.getReviews()
+            ));
+        }
+        ResponseWithRecordCount response = new ResponseWithRecordCount(HttpStatus.OK, ControllerMessages.SUCCESS, endroitDtoList.size(), endroitDtoList);
         return new ResponseEntity<>(response, response.getStatus());
     }
 
@@ -82,16 +98,37 @@ public class EndroitController {
             @RequestParam(name = "pageSize") int pageSize,
             @RequestParam(name = "sortBy") String sortBy){
         Page<EndroitModel> list = endroitService.findEndroitsWithPaginationAndSorting(offset, pageSize, sortBy);
-        ResponseWithRecordCount response = new ResponseWithRecordCount(HttpStatus.OK, ControllerMessages.SUCCESS, list.getSize(), list);
+        List<EndroitDto> endroitDtoList = new LinkedList<>();
+        for (EndroitModel endroit: list) {
+            endroitDtoList.add(new EndroitDto(
+                    endroit.getId(),
+                    endroit.getName(),
+                    endroit.getDescription(),
+                    endroit.getImage(),
+                    endroit.getVideoLink(),
+                    endroit.getRatingAvg(), endroit.getNumberOfReviews(),
+                    endroit.getVille().getId(),
+                    endroit.getVille().getVillename(),
+                    endroit.getReviews()
+            ));
+        }
+        ResponseWithRecordCount response = new ResponseWithRecordCount(HttpStatus.OK, ControllerMessages.SUCCESS, endroitDtoList.size(), endroitDtoList);
         return new ResponseEntity<>(response, response.getStatus());
     }
 
     //afficher un endroit à partir de son id
     @GetMapping(path="/{id}")
-    public ResponseEntity<EndroitModel> getEndroitById(@PathVariable("id") int id) {
+    public ResponseEntity<EndroitDto> getEndroitById(@PathVariable("id") int id) {
         EndroitModel endroit = endroitRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found Endroit with id = " + id));
-        return new ResponseEntity<>(endroit, HttpStatus.OK);
+
+        EndroitDto endroitDto = new EndroitDto(endroit.getId(), endroit.getName(), endroit.getDescription(),
+                endroit.getImage(), endroit.getVideoLink(),
+                endroit.getRatingAvg(), endroit.getNumberOfReviews(),
+                endroit.getVille().getId(),
+                endroit.getVille().getVillename(),endroit.getReviews());
+
+        return new ResponseEntity<>(endroitDto, HttpStatus.OK);
     }
 
 
