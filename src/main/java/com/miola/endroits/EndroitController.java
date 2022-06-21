@@ -1,10 +1,8 @@
 package com.miola.endroits;
 
 
-import com.miola.dto.EndroitDto;
-import com.miola.dto.ResponseWithArray;
+import com.miola.dto.*;
 
-import com.miola.dto.UserDetailsWithoutPwd;
 import com.miola.exceptions.ResourceNotFoundException;
 import com.miola.responseMessages.ControllerMessages;
 import com.miola.responseMessages.UtilMessages;
@@ -13,7 +11,6 @@ import com.miola.reviews.ReviewService;
 import com.miola.users.UserController;
 import com.miola.villes.VilleModel;
 import com.miola.villes.VilleRepository;
-import com.miola.dto.ResponseWithRecordCount;
 import com.miola.users.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -151,10 +148,17 @@ public class EndroitController {
 
     //Get All Reviews of an Endroit
     @GetMapping(path = "/{id}/reviews")
-    public ResponseEntity<List<ReviewModel>> getReviewsOfEndroit(@PathVariable("id") int id){
+    public ResponseEntity<List<ReviewDto>> getReviewsOfEndroit(@PathVariable("id") int id){
         EndroitModel endroit = endroitRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found Endroit with id = " + id));
-        return new ResponseEntity<>(endroit.getReviews(), HttpStatus.OK);
+        List<ReviewModel> list = endroit.getReviews();
+        List<ReviewDto> list1 = new ArrayList<>();
+        for (ReviewModel r:list){
+            ReviewDto reviewDto = new ReviewDto(r.getId(),r.getContenu(),r.getRating(),
+                    r.getUser().getId(),r.getUser().getFirstName()+" "+r.getUser().getLastName());
+            list1.add(reviewDto);
+        }
+        return new ResponseEntity<>(list1, HttpStatus.OK);
     }
 
     //Modifier un endroit

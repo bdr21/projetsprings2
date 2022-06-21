@@ -1,6 +1,7 @@
 package com.miola.reviews;
 
 import com.miola.dto.ResponseWithArray;
+import com.miola.dto.ReviewDto;
 import com.miola.endroits.EndroitModel;
 import com.miola.endroits.EndroitService;
 import com.miola.exceptions.ResourceNotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +34,14 @@ public class ReviewController {
     @ResponseStatus(code = HttpStatus.OK)
     public ResponseEntity<ResponseWithArray> getAll() {
         List<ReviewModel> list = reviewService.getAll();
-        ResponseWithArray response = new ResponseWithArray(HttpStatus.OK, ControllerMessages.SUCCESS, list);
+        List<ReviewDto> list1 = new ArrayList<>();
+        for (ReviewModel r:list){
+            ReviewDto reviewDto = new ReviewDto(r.getId(),r.getContenu(),r.getRating(),
+                    r.getUser().getId(),r.getUser().getFirstName()+" "+r.getUser().getLastName());
+            list1.add(reviewDto);
+        }
+
+        ResponseWithArray response = new ResponseWithArray(HttpStatus.OK, ControllerMessages.SUCCESS, list1);
         return new ResponseEntity<ResponseWithArray>(response, response.getStatus());
     }
 
