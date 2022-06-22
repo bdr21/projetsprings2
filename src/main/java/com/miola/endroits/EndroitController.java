@@ -49,23 +49,31 @@ public class EndroitController {
         if (name != null) {
             Optional<EndroitModel> _endroit = endroitRepository.findByName(name);
             EndroitModel endroit = _endroit.get();
-            EndroitDto endroitDto = new EndroitDto(endroit.getId(), endroit.getName(), endroit.getDescription(),
+            List<ReviewDto> listR = new ArrayList<>();
+            for (ReviewModel r:endroit.getReviews()){
+                ReviewDto reviewDto = new ReviewDto(r.getId(),r.getContenu(),r.getRating(),
+                        r.getUser().getId(),r.getUser().getFirstName()+" "+r.getUser().getLastName());
+                listR.add(reviewDto);
+            }
+            EndroitDtoList endroitDto = new EndroitDtoList(endroit.getId(), endroit.getName(), endroit.getDescription(),
                     endroit.getImage(), endroit.getVideoLink(),
                     endroit.getRatingAvg(), endroit.getNumberOfReviews(),
                     endroit.getVille().getId(),
-                    endroit.getVille().getVillename(),endroit.getReviews());
+                    endroit.getVille().getVillename(),listR);
             return new ResponseEntity<>(endroitDto, HttpStatus.OK);
         }
             List<EndroitModel> list = endroitService.getAll();
             List<EndroitDto> list1 = new ArrayList<>();
             for (EndroitModel e : list) {
-                EndroitDto endroitDto = new EndroitDto(e.getId(), e.getName(), e.getDescription(),
+
+                    EndroitDto endroitDto = new EndroitDto(e.getId(), e.getName(), e.getDescription(),
                         e.getImage(), e.getVideoLink(),
                         e.getRatingAvg(), e.getNumberOfReviews(),
                         e.getVille().getId(),
                         e.getVille().getVillename(), e.getReviews());
 
                 list1.add(endroitDto);
+
             }
             ResponseWithArray response = new ResponseWithArray(HttpStatus.OK, ControllerMessages.SUCCESS, list1);
             return new ResponseEntity<ResponseWithArray>(response, response.getStatus());
@@ -79,17 +87,19 @@ public class EndroitController {
         List<EndroitModel> list = endroitService.findEndroitsWithSorting(sortBy);
         List<EndroitDto> endroitDtoList = new LinkedList<>();
         for (EndroitModel endroit: list) {
-            endroitDtoList.add(new EndroitDto(
-                    endroit.getId(),
-                    endroit.getName(),
-                    endroit.getDescription(),
-                    endroit.getImage(),
-                    endroit.getVideoLink(),
-                    endroit.getRatingAvg(), endroit.getNumberOfReviews(),
-                    endroit.getVille().getId(),
-                    endroit.getVille().getVillename(),
-                    endroit.getReviews()
-            ));
+
+                endroitDtoList.add(new EndroitDto(
+                        endroit.getId(),
+                        endroit.getName(),
+                        endroit.getDescription(),
+                        endroit.getImage(),
+                        endroit.getVideoLink(),
+                        endroit.getRatingAvg(), endroit.getNumberOfReviews(),
+                        endroit.getVille().getId(),
+                        endroit.getVille().getVillename(),
+                        endroit.getReviews()
+                ));
+
         }
         ResponseWithRecordCount response = new ResponseWithRecordCount(HttpStatus.OK, ControllerMessages.SUCCESS, endroitDtoList.size(), endroitDtoList);
         return new ResponseEntity<>(response, response.getStatus());
@@ -114,17 +124,19 @@ public class EndroitController {
         Page<EndroitModel> list = endroitService.findEndroitsWithPaginationAndSorting(offset, pageSize, sortBy);
         List<EndroitDto> endroitDtoList = new LinkedList<>();
         for (EndroitModel endroit: list) {
-            endroitDtoList.add(new EndroitDto(
-                    endroit.getId(),
-                    endroit.getName(),
-                    endroit.getDescription(),
-                    endroit.getImage(),
-                    endroit.getVideoLink(),
-                    endroit.getRatingAvg(), endroit.getNumberOfReviews(),
-                    endroit.getVille().getId(),
-                    endroit.getVille().getVillename(),
-                    endroit.getReviews()
-            ));
+
+                endroitDtoList.add(new EndroitDto(
+                        endroit.getId(),
+                        endroit.getName(),
+                        endroit.getDescription(),
+                        endroit.getImage(),
+                        endroit.getVideoLink(),
+                        endroit.getRatingAvg(), endroit.getNumberOfReviews(),
+                        endroit.getVille().getId(),
+                        endroit.getVille().getVillename(),
+                        endroit.getReviews()
+                ));
+
         }
         ResponseWithRecordCount response = new ResponseWithRecordCount(HttpStatus.OK, ControllerMessages.SUCCESS, endroitDtoList.size(), endroitDtoList);
         return new ResponseEntity<>(response, response.getStatus());
@@ -132,15 +144,22 @@ public class EndroitController {
 
     //afficher un endroit à partir de son id
     @GetMapping(path="/{id}")
-    public ResponseEntity<EndroitDto> getEndroitById(@PathVariable("id") int id) {
+    public ResponseEntity<EndroitDtoList> getEndroitById(@PathVariable("id") int id) {
         EndroitModel endroit = endroitRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found Endroit with id = " + id));
 
-        EndroitDto endroitDto = new EndroitDto(endroit.getId(), endroit.getName(), endroit.getDescription(),
+        List<ReviewDto> listR = new ArrayList<>();
+        for (ReviewModel r:endroit.getReviews()){
+            ReviewDto reviewDto = new ReviewDto(r.getId(),r.getContenu(),r.getRating(),
+                    r.getUser().getId(),r.getUser().getFirstName()+" "+r.getUser().getLastName());
+            listR.add(reviewDto);
+        }
+
+        EndroitDtoList endroitDto = new EndroitDtoList(endroit.getId(), endroit.getName(), endroit.getDescription(),
                 endroit.getImage(), endroit.getVideoLink(),
                 endroit.getRatingAvg(), endroit.getNumberOfReviews(),
                 endroit.getVille().getId(),
-                endroit.getVille().getVillename(),endroit.getReviews());
+                endroit.getVille().getVillename(),listR);
 
         return new ResponseEntity<>(endroitDto, HttpStatus.OK);
     }
