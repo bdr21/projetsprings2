@@ -2,7 +2,6 @@ package com.miola.reviews;
 
 import com.miola.dto.ResponseWithArray;
 import com.miola.dto.ReviewDto;
-import com.miola.endroits.EndroitModel;
 import com.miola.endroits.EndroitService;
 import com.miola.exceptions.ResourceNotFoundException;
 import com.miola.responseMessages.ControllerMessages;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/reviews")
+@RequestMapping(path = "/api/reviews")
 public class ReviewController {
 
     @Autowired
@@ -27,7 +26,6 @@ public class ReviewController {
 
     @Autowired
     private ReviewRepository reviewRepository;
-
 
     //Afficher tous les reviews
     @GetMapping(path = "")

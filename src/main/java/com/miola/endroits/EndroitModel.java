@@ -10,6 +10,8 @@ import com.miola.reviews.ReviewRepository;
 import com.miola.reviews.ReviewService;
 import com.miola.villes.VilleModel;
 import lombok.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -52,6 +54,7 @@ public class EndroitModel {
     @JoinColumn(name = "ville_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
+    @NotFound(action = NotFoundAction.IGNORE)
     private VilleModel ville;
 
     @OneToMany(mappedBy = "endroit", cascade = CascadeType.ALL)

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @CrossOrigin(origins = "http://localhost:3000" , allowCredentials = "true")
 public class UserController {
 

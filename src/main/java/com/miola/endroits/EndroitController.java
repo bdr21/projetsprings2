@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/endroits")
+@RequestMapping(path = "/api/endroits")
 public class EndroitController {
 
     @Autowired
@@ -39,9 +39,6 @@ public class EndroitController {
     private ReviewService reviewService;
     @Autowired
     private UserController userController;
-
-
-
     //Afficher tous les endroits ou bien un seul avec son nom
     @GetMapping(path = "")
     @ResponseStatus(code = HttpStatus.OK)
@@ -150,8 +147,7 @@ public class EndroitController {
 
         List<ReviewDto> listR = new ArrayList<>();
         for (ReviewModel r:endroit.getReviews()){
-            ReviewDto reviewDto = new ReviewDto(r.getId(),r.getContenu(),r.getRating(),
-                    r.getUser().getId(),r.getUser().getFirstName()+" "+r.getUser().getLastName());
+            ReviewDto reviewDto = new ReviewDto(r.getId(),r.getContenu(),r.getRating(),r.getUser().getId(),r.getUser().getFirstName()+" "+r.getUser().getLastName());
             listR.add(reviewDto);
         }
 
