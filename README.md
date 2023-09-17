@@ -26,8 +26,8 @@ $ git clone https://github.com/bdr21/projetsprings2.git
 
 ## Réalisation
 
-<p align="center">
-    <img src="https://i.postimg.cc/9rQ9PckD" alt="touview-screenshot"/>
+<div style="display: flex; flex-direction: column">
+    <img src="https://i.postimg.cc/9rQ9PckD/touview-screenshot.png" alt="touview-screenshot"/>
     <img src="https://i.postimg.cc/zy3nNqws/touview-screenshot-2.png" alt="touview-screenshot-2"/>
     <img src="https://i.postimg.cc/k6C62C8X/touview-screenshot-3.png" alt="touview-screenshot-3"/>
     <img src="https://i.postimg.cc/gw8LcjxT/touview-screenshot-4.png" alt="touview-screenshot-4"/>
@@ -36,7 +36,7 @@ $ git clone https://github.com/bdr21/projetsprings2.git
     <img src="https://i.postimg.cc/0rxDQYdd/touview-screenshot-7.png" alt="touview-screenshot-7"/>
     <img src="https://i.postimg.cc/bGtkGLBL/touview-screenshot-8.png" alt="touview-screenshot-8"/>
     <img src="https://i.postimg.cc/JtqJBspw/touview-screenshot-9.png" alt="touview-screenshot-9"/>
-</p>
+</div>
 
 ## Contributing
 
