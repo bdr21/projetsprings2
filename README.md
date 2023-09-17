@@ -59,23 +59,53 @@ $ git clone https://github.com/bdr21/projetsprings2.git
     </p>
     <p align=center>
         <img src="https://imageupload.io/ib/F3soioEWetQv9nM_1694965168.png" alt="touview-screenshot-4"/>
+        <br>
+        <br>
+        <br>
         <hr>
+        <br>
+        <br>
+        <br>
     </p>
     <p align=center>
         <img src="https://imageupload.io/ib/e1ByFvnCO2Z4j8x_1694965127.png" alt="touview-screenshot-5"/>
+        <br>
+        <br>
+        <br>
         <hr>
+        <br>
+        <br>
+        <br>
     </p>
     <p align=center>
         <img src="https://imageupload.io/ib/X027IIJ5wZp4LL3_1694965129.png" alt="touview-screenshot-6"/>
+        <br>
+        <br>
+        <br>
         <hr>
+        <br>
+        <br>
+        <br>
     </p>
     <p align=center>
         <img src="https://imageupload.io/ib/7Z7NsW1pmpL88HK_1694965342.png" alt="touview-screenshot-7"/>
+        <br>
+        <br>
+        <br>
         <hr>
+        <br>
+        <br>
+        <br>
     </p>
     <p align=center>
         <img src="https://imageupload.io/ib/cmku6mely9wJzGd_1694965339.png" alt="touview-screenshot-8"/>
+        <br>
+        <br>
+        <br>
         <hr>
+        <br>
+        <br>
+        <br>
     </p>
     <p align=center>
         <img src="https://imageupload.io/ib/g69nwQcGB7Mnbd8_1694965342.png" alt="touview-screenshot-9"/>
