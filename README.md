@@ -29,6 +29,9 @@ $ git clone https://github.com/bdr21/projetsprings2.git
 <p align=center>
     <p align=center>
         <img src="https://imageupload.io/ib/PFzItZWPgwrcDqb_1694965342.png" alt="touview-screenshot" style="border: 2px solid #000; padding: 5px;"/>
+        <br>
+        <br>
+        <br>
         <hr>
         <br>
         <br>
@@ -36,11 +39,23 @@ $ git clone https://github.com/bdr21/projetsprings2.git
     </p>
     <p align=center>
         <img src="https://imageupload.io/ib/pnjE2jOZw2TMRnX_1694965154.png" alt="touview-screenshot-2"/>
+        <br>
+        <br>
+        <br>
         <hr>
+        <br>
+        <br>
+        <br>
     </p>
     <p align=center>
         <img src="https://imageupload.io/ib/GDnJY7Br9o9D0RM_1694965169.png" alt="touview-screenshot-3"/>
+        <br>
+        <br>
+        <br>
         <hr>
+        <br>
+        <br>
+        <br>
     </p>
     <p align=center>
         <img src="https://imageupload.io/ib/F3soioEWetQv9nM_1694965168.png" alt="touview-screenshot-4"/>
