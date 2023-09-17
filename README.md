@@ -114,7 +114,7 @@ $ git clone https://github.com/bdr21/projetsprings2.git
 
 ## Démo
 
-<iframe class="primary-border-radius" frameborder="0" allowfullscreen="" src="//www.youtube.com/embed/ORC66cHBZo4"></iframe>
+[![Video](http://img.youtube.com/vi/ORC66cHBZo4/0.jpg)](http://www.youtube.com/watch?v=ORC66cHBZo4)
 
 ## Contributing
 
