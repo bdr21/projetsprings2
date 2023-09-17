@@ -26,7 +26,7 @@ $ git clone https://github.com/bdr21/projetsprings2.git
 
 ## Réalisation
 
-<p style=display: flex; flex-direction: column>
+<p align=center>
     <img src="https://imageupload.io/ib/PFzItZWPgwrcDqb_1694965342.png" alt="touview-screenshot"/>
     <img src="https://imageupload.io/ib/pnjE2jOZw2TMRnX_1694965154.png" alt="touview-screenshot-2"/>
     <img src="https://imageupload.io/ib/GDnJY7Br9o9D0RM_1694965169.png" alt="touview-screenshot-3"/>
