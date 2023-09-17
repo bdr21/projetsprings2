@@ -27,7 +27,7 @@ $ git clone https://github.com/bdr21/projetsprings2.git
 ## Réalisation
 
 <p align="center">
-    <img src="https://i.postimg.cc/9rQ9PckD/touview-screenshot.png" alt="touview-screenshot"/>
+    <img src="https://i.postimg.cc/9rQ9PckD" alt="touview-screenshot"/>
     <img src="https://i.postimg.cc/zy3nNqws/touview-screenshot-2.png" alt="touview-screenshot-2"/>
     <img src="https://i.postimg.cc/k6C62C8X/touview-screenshot-3.png" alt="touview-screenshot-3"/>
     <img src="https://i.postimg.cc/gw8LcjxT/touview-screenshot-4.png" alt="touview-screenshot-4"/>
